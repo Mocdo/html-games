@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+
+<script id="vertex-shader" type="x-shader/x-vertex">
+attribute vec4 vPosition;
+attribute vec4 vNormal;
+varying vec4 fColor;
+
+uniform mat4 projection;
+uniform mat4 modelView;
+uniform mat4 transform;
+
+
+
+uniform vec4 point_lightPosition;
+
+uniform int use_pointlight;
+
+uniform float shininess;
+uniform vec4 ambientProduct;
+uniform vec4 diffuseProduct;
+uniform vec4 specularProduct;
+//uniform mat3 normalMatrix;
+
+
+
+void main(){
+  gl_Position = projection * modelView * transform * vPosition;
+  
+  
+  
+  if( use_pointlight == 1 ){
+
+    vec3 pos = ( modelView * transform * vPosition ).xyz;
+
+  
+    vec3 L;
+    
+	if(point_lightPosition.w == 0.0) L = normalize((modelView*point_lightPosition).xyz);
+    else L = normalize( (modelView*point_lightPosition).xyz - pos );
+	
+    vec3 E = -normalize( pos );
+    vec3 H = normalize( L + E );
+  
+  
+    vec3 N = normalize(  modelView * transform * vNormal).xyz;
+  
+
+    vec4 ambient = ambientProduct;
+    float Kd = max( dot(L, N), 0.0 );
+    vec4  diffuse = Kd*diffuseProduct;
+
+    float Ks = pow( max(dot(N, H), 0.0), shininess );
+    vec4  specular = Ks * specularProduct;
+  
+    if( dot(L, N) < 0.0 ) {
+	  specular = vec4(0.0, 0.0, 0.0, 1.0);
+    }
+  
+    fColor = ambient + diffuse +specular;
+	fColor.a = 1.0;
+	
+  }else{fColor = vec4(0.7, 0.7, 0.7, 1.0);}
+  
+
+}
+
+
+
+</script>
+
+<script id="fragment-shader" type="x-shader/x-fragment">
+precision mediump float;
+
+varying vec4 fColor;
+
+void main(){
+  gl_FragColor = fColor;
+}
+</script>
+
+
+
+
+<script type="text/javascript" src="files/webgl-utils.js"></script>
+<script type="text/javascript" src="files/initShaders.js"></script>
+<script type="text/javascript" src="files/MV.js"></script>
+<script type="text/javascript" src="files/main.js"></script>
+
+</head><body>
+<div>
+View Eye 0 <input id="slider1" type="range"
+ min="0" max="5" step="0.5" value="2"
+  />
+ 5
+</div><br/>
+
+<div>
+lightHeight 0.5 <input id="slider2" type="range"
+ min="0.5" max="1.2" step="0.1" value="0.6"
+  />
+ 1.2
+</div><br/>
+<p id="debug1"></p>
+<canvas id="gl-canvas" width="512" height="512">&gt;
+Oops ... your browser doesn't support the HTML5 canvas element
+</canvas>
+<p id="debug2"></p>
+<p id="debug3"></p>
+
+</body></html>
