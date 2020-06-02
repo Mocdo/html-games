@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+
+
+
+
+
+<script id="vertex-shader-alien" type="x-shader/x-vertex">
+attribute vec4 vPosition;
+uniform float depth;
+uniform float h_offset;
+void main(){
+  gl_Position.x = vPosition.x + h_offset;
+  gl_Position.y = vPosition.y + depth;
+  gl_Position.z = 0.0;
+  gl_Position.w = 1.0;
+
+}
+</script>
+
+<script id="fragment-shader-red" type="x-shader/x-fragment">
+precision mediump float;
+void main(){
+  gl_FragColor = vec4( 1.0, 0.0, 0.0, 1.0 );}
+</script>
+
+
+<script id="vertex-shader-cannon" type="x-shader/x-vertex">
+attribute vec4 vPosition;
+uniform float offset;
+void main(){
+  gl_Position.x = vPosition.x + offset;
+  gl_Position.y = vPosition.y;
+  gl_Position.z = 0.0;
+  gl_Position.w = 1.0;
+
+}
+</script>
+
+<script id="fragment-shader-green" type="x-shader/x-fragment">
+precision mediump float;
+void main(){
+  gl_FragColor = vec4( 0.0, 1.0, 0.0, 1.0 );}
+</script>
+
+<script id="vertex-shader-bullet" type="x-shader/x-vertex">
+attribute vec4 vPosition;
+uniform float v_offset;
+void main(){
+  gl_Position.x = vPosition.x;
+  gl_Position.y = vPosition.y + v_offset;
+  gl_Position.z = 0.0;
+  gl_Position.w = 1.0;
+
+}
+</script>
+
+<script type="text/javascript" src="files/webgl-utils.js"></script>
+<script type="text/javascript" src="files/initShaders.js"></script>
+<script type="text/javascript" src="files/MV.js"></script>
+<script type="text/javascript" src="files/main.js"></script>
+
+
+
+<style>  
+#container{ 
+float:right; 
+} 
+</style>  
+
+
+</head><body>
+<div>
+<canvas id="gl-canvas" width="800" height="600">&gt;
+Oops ... your browser doesn't support the HTML5 canvas element
+</canvas>
+<div id="container">
+<div>
+alien_shoot_rate: MAX <input id="shoot_rate_slider" type="range"
+ min="10" max="300" step="10" value="120"
+  />
+ MIN
+</div><br/>
+
+<div>
+aliens_forward_speed: 0 <input id="forward_speed_slider" type="range"
+ min="0" max="0.002" step="0.0001" value="0.001"
+  />
+ 200
+</div><br/>
+<p>HELP:</p>
+<p>Left-Click to shoot</p>
+<p>Arrow keys to move left or right</p>
+<p>Goal: Defeat all red blocks</p>
+<p>If you win, red's block will be faster</p>
+<p>'r' to restart the game</p>
+<p>'q' to shut the game</p>
+<p id="debug"></p>
+</div>
+</div>
+</body></html>
