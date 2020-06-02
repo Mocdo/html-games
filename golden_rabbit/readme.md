@@ -1,5 +1,5 @@
 # Golden Bunny
-a interactive view of a golden bunny
+a interactive view of a golden bunny. With great lighting.
 
 ![alt text](https://raw.githubusercontent.com/Mocdo/html-games/master/golden_rabbit/report_pic/screenshoot.JPG "bunny")
 
