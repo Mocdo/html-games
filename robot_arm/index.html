@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html><head>
+
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<script id="vertex-shader" type="x-shader/x-vertex">
+attribute  vec4 vPosition;
+attribute  vec4 vColor;
+varying vec4 fColor;
+
+uniform mat4 modelViewMatrix;
+uniform mat4 projectionMatrix;
+
+void main()
+{
+    fColor = vColor;
+    gl_Position = projectionMatrix * modelViewMatrix * vPosition;
+}
+</script>
+
+<script id="fragment-shader" type="x-shader/x-fragment">
+
+precision mediump float;
+
+varying  vec4 fColor;
+
+void main()
+{
+    gl_FragColor = fColor;
+}
+</script>
+
+<script type="text/javascript" src="files/webgl-utils.js"></script>
+<script type="text/javascript" src="files/initShaders.js"></script>
+<script type="text/javascript" src="files/MV.js"></script>
+<script type="text/javascript" src="files/main.js"></script>
+
+</head>
+
+<div>
+body angle -180 <input id="slider1" type="range"
+ min="-180" max="180" step="10" value="0"
+  />
+ 180
+</div><br/>
+
+<div>
+lower arm angle -180 <input id="slider2" type="range"
+ min="-180" max="180" step="10" value="0"
+  />
+ 180
+</div><br/>
+
+<div>
+upper arm angle -180 <input id="slider3" type="range"
+ min="-180" max="180" step="10" value="0"
+  />
+ 180
+</div><br/>
+
+
+<body>
+<canvas id="gl-canvas" width="512" height="512">
+Oops ... your browser doesn't support the HTML5 canvas element
+</canvas>
+<button onclick="cancel_red()">
+reset_red
+</button>
+<p id="debug1"></p>
+<p id="debug2"></p>
+
+</body>
+</html>
